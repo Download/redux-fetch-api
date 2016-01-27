@@ -58,7 +58,7 @@ class App extends Api {
 Or, without relying on the decorators proposal:
 
 ```js
-remote('http://example.com/api', '/api')(
+const App = remote('http://example.com/api', '/api')(
   class App extends Api {
     someFunction() {
       return this.fetch('/products/Wedding+Dresses/')
@@ -74,10 +74,11 @@ remote('http://example.com/api', '/api')(
 ```
 
 In both cases, instances of `App` will get a `fetch` method that is scoped
-to the URLs that were assigned to `App`. This allows us to postpone decicions
-about those URLs to later/higher up the Api hierarchy.
+to the URLs that were assigned to it by `@remote` and it's parent Apis.
+This allows us to postpone decicions about those URLs to later/higher up
+the Api hierarchy.
 
-The `clientUrl` side url can be relative. In that case, the browser will use
+The `clientUrl` can be relative. In that case, the browser will use
 the base URL of the website and append the relative url to that. The server
 url specified at the root level MUST be absolute.
 
@@ -95,7 +96,7 @@ parent Api:
 @remote
 class Search extends Api {
   search() {
-    return this.fetch('/search', this.filter());
+    return this.fetch('/search');
   }
 }
 ```

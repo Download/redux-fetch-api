@@ -21,7 +21,7 @@
     "build-test": "webpack --output-path lib --output-filename redux-fetch-api.spec.js \"./redux-fetch-api.spec.jsx\" && mocha \"lib/redux-fetch-api.spec.js\" ",
     "release": "npm run build && npm run build-test",
     "test": "mocha --require src/test-helper.js \"src/**/*.spec.jsx\"",
-    "test-dev": "webpack-dev-server --output-path test --output-filename redux-fetch-api.spec.js \"mocha!./redux-fetch-api.spec.jsx\" --content-base test --port 8888"
+    "test-dev": "webpack-dev-server --output-path test --output-filename redux-fetch-api.spec.js \"mocha!./redux-fetch-api.spec.jsx\" --content-base test --port 8888 --config dev.webpack.config.js"
   },
   "keywords": [
     "redux",

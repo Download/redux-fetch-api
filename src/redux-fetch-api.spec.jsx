@@ -55,6 +55,19 @@ describe('@remote(url=\'\', clientUrl=null, onClient=isOnClient())', () => {
 		const test = new Test();
 		expect(test.fetch).to.be.a('function');
 	})
+
+	it('works when used as a regular function', () => {
+		const Test = remote(class Test { })
+		const test = new Test();
+		expect(test).to.have.a.property('fetch');
+		expect(test.fetch).to.be.a('function');
+		const Test2 = remote('/test')(class Test2 { })
+		const test2 = new Test2();
+		expect(test2).to.have.a.property('fetch');
+		expect(test2.fetch).to.have.a.property('url');
+		expect(test2.fetch.url).to.equal('/test');
+	});
+
 	it('can be used on nested components', () => {
 		@remote('/inner')
 		class Inner extends Api {}
