@@ -21,14 +21,16 @@ import { remote, endpoint, fetcher } from 'redux-fetch-api';
 Or, using ES5 / `require`:
 
 ```js
-var remote = require('redux-fetch-api').fetch;
+var remote = require('redux-fetch-api').remote;
+var endpoint = require('redux-fetch-api').endpoint;
+var fetcher = require('redux-fetch-api').fetcher;
 ```
 
 ## Usage
 Use `@remote` to decorate Apis with a scoped isomorphic `fetch` method.
 Set server-side and client-side base-urls for fetching with `@endpoint`
 
-### @remote(url=\'\')
+### @remote(url='')
 Decorate an Api class with `@remote` to give it it's own scoped version
 of `fetch`, just like it has scoped versions of `getState` and `createAction`.
 
@@ -135,7 +137,7 @@ app.moduleC.submodule2.doIt(); // fetches 'http://example.com/modC/sub2/somethin
 ```
 
 
-### @endpoint**(url=\'\', altUrl=null, usAlt=runningInBrowser())
+### @endpoint(url=\'\', altUrl=null, usAlt=runningInBrowser())
 
 Allows you to intervene in the process by which `.fetch` traverses
 the parent hierarchy. If it encounters an api with a `fetch` method
