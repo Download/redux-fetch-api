@@ -1,30 +1,53 @@
 ﻿import Api from 'redux-apis';
-import fetch from 'isomorphic-fetch';
+import isomorphicFetch from 'isomorphic-fetch';
 
-function isOnClient() {
-	return typeof global === 'undefined';
+export function remote(url='') {
+	// handle invocation without parentheses: @remote
+	if (typeof url != 'string') {return remote()(url);}
+	return (api) => {
+		if (typeof api == 'function') {api.prototype.fetch = scopedFetcher(url);}
+		else {api.fetch = scopedFetcher(url).bind(api);}
+		return api;
+	}
+}
+export default remote;
+
+export function endpoint(url='', altUrl=null, useAlt=runningInBrowser()) {
+	// handle invocation without parentheses: @endpoint
+	if (typeof url != 'string') {return endpoint()(url);}
+	return (api) => {
+		const target = typeof api == 'function' ? api.prototype : api;
+		target.__endpoint = (useAlt && altUrl) || url;
+		return api;
+	}
 }
 
-export function remote(url='', clientUrl=null, onClient=isOnClient()) {
-	if ((arguments.length === 1) && typeof url == 'function') {
-		// invocation without parentheses: @remote
-		return remote()(url);
+export function fetcher(fetchFunction) {
+	return (api) => {
+		const target = typeof api == 'function' ? api.prototype : api;
+		target.__fetch = fetchFunction;
+		return api;
 	}
-	return (component) => {
-		component.prototype.fetch = function scoped_fetch(url, opts, abs=false) {
-			url = !abs && this.fetch.url ? this.fetch.url + url : url;
-			let r, p = this;
+}
+
+function scopedFetcher(baseUrl) {
+	return function(url='', opts=undefined, abs=false) {
+		if (this.__endpoint) {
+			url = abs && url || this.__endpoint + baseUrl + url;
+		}
+		else {
+			url = !abs && baseUrl ? baseUrl + url : url;
+			let p = this;
 			while (p = p.__parent) {
 				if (p.fetch) {
-					r = p;
-					break;
+					return p.fetch(url, opts, abs);
 				}
 			}
-			return !abs && r ? r.fetch(url, opts, abs) : fetch(url, opts);
-		};
-		component.prototype.fetch.url = clientUrl && onClient ? clientUrl : url;
-		return component;
+		}
+		return this.__fetch	? this.__fetch(url, opts) : isomorphicFetch(url, opts);
 	}
 }
 
-export default remote;
+function runningInBrowser() {
+	return typeof window == 'object' && typeof global === 'undefined';
+}
