@@ -1,6 +1,6 @@
 {
   "name": "redux-fetch-api",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Async api for use with redux-apis",
   "main": "lib/redux-fetch-api.min.js",
   "babel": {
@@ -15,6 +15,7 @@
     ]
   },
   "scripts": {
+    "postinstall": "npm install redux-apis",
     "build-umd": "webpack --output-path lib --output-filename redux-fetch-api.umd.js --output-library-target umd \"./redux-fetch-api.jsx\" ",
     "build-min": "webpack -p --output-path lib --output-filename redux-fetch-api.min.js --output-library-target umd \"./redux-fetch-api.jsx\" ",
     "build": "npm run build-umd && npm run build-min",
@@ -67,14 +68,12 @@
     "react-redux": "^4.0.6",
     "react-router": "^2.0.0-rc5",
     "redux": "^3.0.6",
-    "redux-apis": "^0.10.3",
     "redux-thunk": "^1.0.3",
     "source-map-support": "^0.4.0",
     "webpack": "^1.12.12",
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
-    "isomorphic-fetch": "^2.2.1",
-    "redux-apis": "^0.12.0"
+    "isomorphic-fetch": "^2.2.1"
   }
 }
