@@ -1,6 +1,6 @@
 ﻿![version](https://img.shields.io/npm/v/redux-fetch-api.svg) ![license](https://img.shields.io/npm/l/redux-fetch-api.svg) ![installs](https://img.shields.io/npm/dt/redux-fetch-api.svg) ![build](https://img.shields.io/travis/Download/redux-fetch-api.svg) ![mind BLOWN](https://img.shields.io/badge/mind-BLOWN-ff69b4.svg)
 
-# redux-fetch-api <sup><sub>v0.3.1</sub></sup>
+# redux-fetch-api <sup><sub>v0.3.2</sub></sup>
 
 **Isomorphic fetch api for use with [redux-apis](https://github.com/download/redux-apis)**
 

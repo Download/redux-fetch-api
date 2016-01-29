@@ -26,6 +26,15 @@ describe('@remote(url=\'\')', () => {
 		expect(test.fetch).to.be.a('function');
 	});
 
+	it('does not affect the results of `Object.keys` on the decorated component', () => {
+		class Test1 {}
+		const test1 = new Test1();
+		@remote
+		class Test2 { }
+		const test2 = new Test2();
+		expect(Object.keys(test1)).to.deep.equal(Object.keys(test2));
+	});
+
 	it('works when called with braces', ()=>{
 		@remote()
 		class Test {}
@@ -265,6 +274,15 @@ describe('@endpoint(url=\'\', altUrl=null, useAlt=runningInBrowser())', () => {
 		expect(test).to.have.a.property('__endpoint');
 	});
 
+	it('does not affect the results of `Object.keys` on the decorated component', () => {
+		class Test1 {}
+		const test1 = new Test1();
+		@endpoint
+		class Test2 { }
+		const test2 = new Test2();
+		expect(Object.keys(test1)).to.deep.equal(Object.keys(test2));
+	});
+
 	it('works when called with braces', ()=>{
 		@endpoint()
 		class Test {}
@@ -407,6 +425,16 @@ describe('@fetcher(fetchFunction)', () => {
 		const test = new Test();
 		expect(test).to.have.a.property('__fetch');
 		expect(test.__fetch).to.equal(myFetch);
+	});
+
+	it('does not affect the results of `Object.keys` on the decorated component', () => {
+		class Test1 {}
+		const test1 = new Test1();
+		function myFetch(){}
+		@fetcher(myFetch)
+		class Test2 { }
+		const test2 = new Test2();
+		expect(Object.keys(test1)).to.deep.equal(Object.keys(test2));
 	});
 
 	it('works when used as a regular function', () => {
