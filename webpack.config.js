@@ -33,18 +33,13 @@ module.exports = {
 		noParse: /\.min\.js/,
 	},
 
-	// Specify dependencies that shouldn’t be resolved by webpack, but should become dependencies
-	// of the resulting bundle. The kind of the dependency depends on output.libraryTarget.
-	externals: function(context, request, callback){
-		if ((context.indexOf('node_modules') !== -1) || (request.indexOf('.') !== 0)) {
-			callback(null, 'commonjs ' + request);
-		}
-		else {
-			callback();
-		}
-	},
-
 	devtool: 'source-map',
+
+	plugins: [
+		new webpack.ProvidePlugin({
+			'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+		})
+	],
 
 	devServer: {
 		stats: {

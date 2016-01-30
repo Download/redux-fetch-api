@@ -1,6 +1,6 @@
 {
   "name": "redux-fetch-api",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Async api for use with redux-apis",
   "main": "lib/redux-fetch-api.min.js",
   "babel": {
@@ -21,7 +21,7 @@
     "build-test": "webpack --output-path lib --output-filename redux-fetch-api.spec.js \"./redux-fetch-api.spec.jsx\" && mocha \"lib/redux-fetch-api.spec.js\" ",
     "release": "npm run build && npm run build-test",
     "test": "mocha --require src/test-helper.js \"src/**/*.spec.jsx\"",
-    "test-dev": "webpack-dev-server --output-path test --output-filename redux-fetch-api.spec.js \"mocha!./redux-fetch-api.spec.jsx\" --content-base test --port 8888 --config dev.webpack.config.js"
+    "test-dev": "webpack-dev-server --output-path test --output-filename redux-fetch-api.spec.js \"mocha!./redux-fetch-api.spec.jsx\" --content-base test --port 8888"
   },
   "keywords": [
     "redux",
@@ -58,6 +58,8 @@
     "babel-register": "^6.3.13",
     "chai": "^3.4.1",
     "chokidar": "^1.4.2",
+    "exports-loader": "^0.6.2",
+    "imports-loader": "^0.6.5",
     "mocha": "^2.3.4",
     "mocha-loader": "^0.7.1",
     "path": "^0.12.7",
@@ -73,7 +75,5 @@
     "webpack": "^1.12.12",
     "webpack-dev-server": "^1.14.1"
   },
-  "dependencies": {
-    "isomorphic-fetch": "^2.2.1"
-  }
+  "dependencies": {}
 }

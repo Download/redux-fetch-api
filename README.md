@@ -1,6 +1,6 @@
 ﻿![version](https://img.shields.io/npm/v/redux-fetch-api.svg) ![license](https://img.shields.io/npm/l/redux-fetch-api.svg) ![installs](https://img.shields.io/npm/dt/redux-fetch-api.svg) ![build](https://img.shields.io/travis/Download/redux-fetch-api.svg) ![mind BLOWN](https://img.shields.io/badge/mind-BLOWN-ff69b4.svg)
 
-# redux-fetch-api <sup><sub>v0.3.2</sub></sup>
+# redux-fetch-api <sup><sub>v0.4.0</sub></sup>
 
 **Isomorphic fetch api for use with [redux-apis](https://github.com/download/redux-apis)**
 
@@ -12,7 +12,6 @@ npm install --save redux-fetch-api
 
 ## Dependencies and imports
 redux-fetch-api does not depend on, but is designed to work well with redux-apis.
-redux-fetch-api depends on [isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch)
 
 ```js
 import { remote, endpoint, fetcher } from 'redux-fetch-api';
@@ -26,11 +25,20 @@ var endpoint = require('redux-fetch-api').endpoint;
 var fetcher = require('redux-fetch-api').fetcher;
 ```
 
+<sub>*NOTE:* redux-fetch-api depends on a global function `fetch` being available, as
+specified by the whatwg [fetch specification](https://fetch.spec.whatwg.org/).
+For NodeJS or older browsers, use a polyfill such as [github/fetch](http://github.github.io/fetch/),
+[node-fetch](https://github.com/bitinn/node-fetch) or [isomorphic-fetch](https://github.com/bitinn/node-fetch). Alternatively, you can explicitly provide
+a fetch implementation using the `@fetcher` decorator function.</sub>
+
+
 ## Usage
+
 Use `@remote` to decorate Apis with a scoped isomorphic `fetch` method.
 Set server-side and client-side base-urls for fetching with `@endpoint`
 
 ### @remote(url='')
+
 Decorate an Api class with `@remote` to give it it's own scoped version
 of `fetch`, just like it has scoped versions of `getState` and `createAction`.
 
@@ -93,7 +101,6 @@ const myApp = remote('http://example.com')(
 myApp.doIt(); // fetches 'http://example.com/something'
 ```
 
-
 ### .fetch(url='', opts=undefined, abs=false)
 
 Any apis decorated with `@remote` will get a `.fetch` method that performs fetch calls
@@ -136,7 +143,6 @@ app.moduleC.submodule1.doIt(); // fetches 'http://example.com/modC/sub1/somethin
 app.moduleC.submodule2.doIt(); // fetches 'http://example.com/modC/sub2/something'
 ```
 
-
 ### @endpoint(url=\'\', altUrl=null, usAlt=runningInBrowser())
 
 Allows you to intervene in the process by which `.fetch` traverses
@@ -173,7 +179,6 @@ is truthy. `useAlt` is initialized to the result of `runningInBrowser()`
 by default, meaning `altUrl` will be used when running in a browser
 environment. You can easily use your own test conditions here.
 
-
 ### @fetcher(fetchMethod)
 
 This decoration allows you to override the default fetch method on any
@@ -198,13 +203,6 @@ of from `Api`, you get async state management for free.
 Please visit the [issue tracker](https://github.com/download/redux-fetch-api/issues)
 for any of the above. Don't be afraid about being off-topic.
 Constructive feedback most appreciated!
-
-
-## Credits
-Credits to [Matt Andrews](https://github.com/matthew-andrews)
-and [Jxck](https://github.com/Jxck) for writing
-[isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch)
-on which this library depends.
 
 
 ## Copyright

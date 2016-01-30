@@ -1,4 +1,4 @@
-﻿import isomorphicFetch from 'isomorphic-fetch';
+﻿let isomorphicFetch = typeof window == 'object' && window.fetch || global.fetch;
 
 export function remote(url='') {
 	// handle invocation without parentheses: @remote
