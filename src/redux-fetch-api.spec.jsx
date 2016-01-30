@@ -174,7 +174,6 @@ describe('.fetch(url, opts, abs=false)', () => {
 			}
 		}
 		const root = new Root();
-		// test scoping
 		root.fetch('/TEST');
 		expect(fetched[fetched.length -1]).to.equal('http://some-server.com/api/TEST');
 		root.outer.fetch('/TEST');
@@ -209,7 +208,6 @@ describe('.fetch(url, opts, abs=false)', () => {
 			}
 		}
 		const root = new Root();
-		// test scoping
 		root.fetch('/TEST');
 		expect(fetched[fetched.length -1]).to.equal('http://example.com/api/TEST');
 		root.outer.fetch('/TEST');
@@ -241,7 +239,6 @@ describe('.fetch(url, opts, abs=false)', () => {
 			}
 		}
 		const root = new Root();
-		// test scoping
 		expect(fetched.length).to.equal(0);
 		root.fetch('/TEST', null, true);
 		expect(fetched[fetched.length -1]).to.equal('/TEST');
@@ -318,10 +315,8 @@ describe('@endpoint(url=\'\', altUrl=null, useAlt=runningInBrowser())', () => {
 	});
 
 	it('can mix and match classes and instances', () => {
-		//@endpoint
 		class Search extends Api {}
 		const search = new Search();
-		//expect(search).to.have.a.property('__endpoint');
 
 		class App extends Api {
 			constructor(state){
@@ -337,7 +332,6 @@ describe('@endpoint(url=\'\', altUrl=null, useAlt=runningInBrowser())', () => {
 			}
 		}
 		const app = new App();
-		log.info(app);
 		expect(app.products.__endpoint).to.equal('PRODUCTS');
 		expect(app.people.__endpoint).to.equal('PEOPLE');
 	});
@@ -481,7 +475,6 @@ describe('@fetcher(fetchFunction)', () => {
 			}
 		}
 		const app = new App();
-		log.info(app);
 		expect(app.products.__fetch).to.equal(myOtherFetch);
 		expect(app.people.__fetch).to.equal(myFetch);
 	});
