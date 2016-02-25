@@ -493,3 +493,53 @@ describe('@fetcher(fetchFunction)', () => {
 		expect(fetched.length).to.equal(0);
 	});
 });
+
+describe('Fetch example', () => {
+	it('works', (done) => {
+		let fetched = null;
+		function dummyFetcher(url) {
+			log.warn('fetching ', url);
+			fetched = url;
+			// return a promise that resolves to an object with a json() method,
+			// so getTodos() gets what it expects
+			return new Promise((resolve, reject) => resolve({
+				json: ()=> ([{id:1, message:'learn redux', checked:false}])
+			}));
+		}
+
+		const TodosApi = remote(
+			class TodosApi extends Api {
+				static INITIAL_STATE = { error: '', isPending: false, todos: [] };
+
+				constructor(initState = TodosApi.INITIAL_STATE) {
+					super(initState)
+
+					this.setHandler('SUCCESS', function handleSuccess(state, action) {
+						console.log('action:', action)
+						return { ...state, isPending: false, todos: action.payload }
+					})
+					this.setHandler('FAILURE', function handleFailure(state, { payload }) {
+						return { ...state, isPending: false, error: payload }
+					})
+				}
+
+				getTodos() {
+					return this.fetch(`/FETCH/todos`)
+						.then((r) => this.dispatch(this.createAction('SUCCESS')({ payload: r.json() })))
+						.catch((e) => this.dispatch(this.createAction('FAILURE')({ payload: e })))
+				}
+
+				todos() {
+					return this.getState().todos
+				}
+			}
+		)
+		fetcher(dummyFetcher)(TodosApi)
+
+		const test = remote('http://localhost:8080')(new TodosApi());
+		test.getTodos().then(result => {
+			expect(fetched).to.equal('http://localhost:8080/FETCH/todos');
+			done();
+		}).catch(done);
+	});
+});
