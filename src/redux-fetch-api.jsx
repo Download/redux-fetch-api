@@ -4,8 +4,8 @@ export function remote(url='') {
 	// handle invocation without parentheses: @remote
 	if (typeof url != 'string') {return remote()(url);}
 	return (api) => {
-		if (typeof api == 'function') {api.prototype.fetch = scopedFetcher(url);}
-		else {api.fetch = scopedFetcher(url).bind(api);}
+		if (typeof api == 'function') {Object.defineProperty(api.prototype, 'fetch', {value:scopedFetcher(url)});}
+		else {Object.defineProperty(api, 'fetch', {value:scopedFetcher(url).bind(api)});}
 		return api;
 	}
 }
@@ -16,7 +16,7 @@ export function endpoint(url='', altUrl=null, useAlt=runningInBrowser()) {
 	if (typeof url != 'string') {return endpoint()(url);}
 	return (api) => {
 		const target = typeof api == 'function' ? api.prototype : api;
-		target.__endpoint = (useAlt && altUrl) || url;
+		Object.defineProperty(target, '__endpoint', {value:(useAlt && altUrl) || url});
 		return api;
 	}
 }
@@ -24,7 +24,7 @@ export function endpoint(url='', altUrl=null, useAlt=runningInBrowser()) {
 export function fetcher(fetchFunction) {
 	return (api) => {
 		const target = typeof api == 'function' ? api.prototype : api;
-		target.__fetch = fetchFunction;
+		Object.defineProperty(target, '__fetch', {value:fetchFunction});
 		return api;
 	}
 }

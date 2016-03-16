@@ -1,6 +1,6 @@
 ﻿![version](https://img.shields.io/npm/v/redux-fetch-api.svg) ![license](https://img.shields.io/npm/l/redux-fetch-api.svg) ![installs](https://img.shields.io/npm/dt/redux-fetch-api.svg) ![build](https://img.shields.io/travis/Download/redux-fetch-api.svg) ![mind BLOWN](https://img.shields.io/badge/mind-BLOWN-ff69b4.svg)
 
-# redux-fetch-api <sup><sub>v1.0.0</sub></sup>
+# redux-fetch-api <sup><sub>v1.0.1</sub></sup>
 
 **Isomorphic fetch api for use with [redux-apis](https://github.com/download/redux-apis)**
 
@@ -9,6 +9,13 @@
 ```sh
 npm install --save redux-fetch-api
 ```
+
+<sub>*NOTE* When using redux-fetch-api on older versions of Node, or older browsers that
+don't support `Promise`s, make sure to install a Promise polyfill as well.
+This library is tested on Node JS 0.10, as can be seen in the [.travis.yml](.travis.yml)
+config file, using [babel-polyfill](https://babeljs.io/docs/usage/polyfill/).</sub>
+
+
 
 ## Dependencies and imports
 redux-fetch-api does not depend on, but is designed to work well with redux-apis.
@@ -25,17 +32,24 @@ var endpoint = require('redux-fetch-api').endpoint;
 var fetcher = require('redux-fetch-api').fetcher;
 ```
 
-<sub>*NOTE:* redux-fetch-api depends on a global function `fetch` being available, as
-specified by the whatwg [fetch specification](https://fetch.spec.whatwg.org/).
-For NodeJS or older browsers, use a polyfill such as [github/fetch](http://github.github.io/fetch/),
-[node-fetch](https://github.com/bitinn/node-fetch) or [isomorphic-fetch](https://github.com/bitinn/node-fetch). Alternatively, you can explicitly provide
-a fetch implementation using the `@fetcher` decorator function.</sub>
+<sub>*NOTE:* redux-fetch-api depends on a global function `fetch`
+being available, as specified by the whatwg
+[fetch specification](https://fetch.spec.whatwg.org/).
+
+For NodeJS or older browsers, use a polyfill such as
+[github/fetch](http://github.github.io/fetch/),
+[node-fetch](https://github.com/bitinn/node-fetch) or
+[isomorphic-fetch](https://github.com/bitinn/node-fetch).
+Alternatively, you can explicitly provide a fetch implementation using
+the `@fetcher` decorator function.</sub>
 
 
 ## Usage
 
 Use `@remote` to decorate Apis with a scoped isomorphic `fetch` method.
-Set server-side and client-side base-urls for fetching with `@endpoint`
+Set server-side and client-side base-urls for fetching with `@endpoint`.
+Override the default fetcher (that uses global `fetch`) with `@fetcher`.
+
 
 ### @remote(url='')
 

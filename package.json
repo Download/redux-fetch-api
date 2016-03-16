@@ -1,6 +1,6 @@
 {
   "name": "redux-fetch-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Async api for use with redux-apis",
   "main": "lib/redux-fetch-api.min.js",
   "babel": {
@@ -61,7 +61,7 @@
     "mocha-loader": "^0.7.1",
     "path": "^0.12.7",
     "picolog": "^1.0.0",
-    "redux-apis": "^1.0.0",
+    "redux-apis": "^1.0.0||2.0.0-alpha.1",
     "source-map-support": "^0.4.0",
     "webpack": "^1.12.12",
     "webpack-dev-server": "^1.14.1"
