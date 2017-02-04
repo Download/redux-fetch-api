@@ -2,6 +2,8 @@
 
 # redux-fetch-api <sup><sub>v1.0.2</sub></sup>
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Download/redux-fetch-api.svg)](https://greenkeeper.io/)
+
 **Isomorphic fetch api for use with [redux-apis](https://github.com/download/redux-apis)**
 
 ## Installation
